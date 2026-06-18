@@ -6,6 +6,7 @@ import com.skills.hub.service.SkillPackService;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class SkillPackServiceImpl implements SkillPackService {
@@ -19,8 +20,9 @@ public class SkillPackServiceImpl implements SkillPackService {
     @Override
     public SkillPack addSkillPack(SkillPack pack) {
         // STEP 1: validate input
-        if (pack == null || pack.getName() == null || pack.getName().isBlank()) {
-            throw new IllegalArgumentException("SkillPack or its name must not be null or empty");
+       
+        if (pack == null || pack.getTitle() == null || pack.getTitle().isBlank()) {
+            throw new IllegalArgumentException("SkillPack or its title must not be null or empty");
         }
 
         // STEP 2: save to DB
@@ -40,6 +42,19 @@ public class SkillPackServiceImpl implements SkillPackService {
     }
 
     @Override
+    public List<SkillPack> searchPacks(String keyword) {
+        
+        // STEP 1: fetch all packs
+        List<SkillPack> allPacks = packRepo.findAll();
+
+        // STEP 2: filter packs where title contains keyword (case-insensitive)
+        return allPacks.stream()
+                .filter(pack -> pack.getTitle() != null &&
+                        pack.getTitle().toLowerCase().contains(keyword.toLowerCase()))
+                .collect(Collectors.toList());
+    }
+
+    @Override
     public SkillPack updateSkillPack(SkillPack pack) {
         // STEP 1: find existing pack by ID
         SkillPack existingPack = packRepo.findById(pack.getId()).orElse(null);
@@ -50,7 +65,8 @@ public class SkillPackServiceImpl implements SkillPackService {
         }
 
         // STEP 3: update fields
-        existingPack.setName(pack.getName());
+        
+        existingPack.setTitle(pack.getTitle());
         existingPack.setDescription(pack.getDescription());
 
         // STEP 4: save updated pack
@@ -70,3 +86,4 @@ public class SkillPackServiceImpl implements SkillPackService {
         return packRepo;
     }
 }
+

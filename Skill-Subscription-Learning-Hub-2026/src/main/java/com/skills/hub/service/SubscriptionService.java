@@ -11,3 +11,4 @@ public interface SubscriptionService {
     List<Subscription> getUserSubscriptions(Long userId);
 }
 
+

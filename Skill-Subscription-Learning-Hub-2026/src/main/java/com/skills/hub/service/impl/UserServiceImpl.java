@@ -1,4 +1,5 @@
-package com.skills.hub.service.impl;
+
+  package com.skills.hub.service.impl;
 
 import com.skills.hub.model.User;
 import com.skills.hub.repository.UserRepository;

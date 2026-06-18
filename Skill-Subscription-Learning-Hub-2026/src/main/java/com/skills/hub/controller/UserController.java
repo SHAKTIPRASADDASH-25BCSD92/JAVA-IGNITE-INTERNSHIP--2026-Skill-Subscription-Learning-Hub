@@ -5,6 +5,7 @@ import com.skills.hub.service.UserService;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import jakarta.servlet.http.HttpSession;
+import org.springframework.ui.Model;
 
 /*
 =========================================================

@@ -9,12 +9,9 @@ import org.springframework.stereotype.Service;
 =========================================================
 WHAT IS THIS CLASS?
 =========================================================
-
 This class contains BUSINESS LOGIC for users.
-
  Controller calls this
  This class talks to repository
-
 =========================================================
 */
 
@@ -30,29 +27,41 @@ public class UserServiceImpl implements UserService {
     @Override
     public User registerUser(User user) {
 
-        // =========================
-        // TASK
-        // =========================
         // STEP 1: check if email already exists
-        // STEP 2: if exists → stop process
-        // STEP 3: if not → save user to DB
-        // STEP 4: return saved user
+        User existingUser = userRepo.findByEmail(user.getEmail());
 
-        return null;
+        // STEP 2: if exists → stop process
+        if (existingUser != null) {
+            throw new RuntimeException("Email already registered: " + user.getEmail());
+        }
+
+        // STEP 3: if not → save user to DB
+        User savedUser = userRepo.save(user);
+
+        // STEP 4: return saved user
+        return savedUser;
     }
 
     @Override
     public User login(String email, String password) {
 
-        // =========================
-        // TASK
-        // =========================
         // STEP 1: find user by email
-        // STEP 2: if user not found → return null
-        // STEP 3: check password match
-        // STEP 4: if correct → return user
-        // STEP 5: else → return null
+        User user = userRepo.findByEmail(email);
 
+        // STEP 2: if user not found → return null
+        if (user == null) {
+            return null;
+        }
+
+        // STEP 3: check password match
+        boolean passwordMatches = user.getPassword().equals(password);
+
+        // STEP 4: if correct → return user
+        if (passwordMatches) {
+            return user;
+        }
+
+        // STEP 5: else → return null
         return null;
     }
 }

@@ -1,4 +1,6 @@
+
 package com.skills.hub.controller;
+
 
 import com.skills.hub.model.SkillPack;
 import com.skills.hub.service.SkillPackService;
@@ -23,9 +25,7 @@ public class SkillPackController {
         this.packService = packService;
     }
 
-    // ─────────────────────────────────────────────────────────
-    // GET /packs — Show all skill packs (with optional search)
-    // ─────────────────────────────────────────────────────────
+   
     @GetMapping("/packs")
     public String viewPacks(@RequestParam(required = false) String search, Model model) {
         // STEP 1: Check if search keyword is provided
@@ -67,9 +67,6 @@ public class SkillPackController {
         return "redirect:/packs";
     }
 
-    // ─────────────────────────────────────────────────────────
-    // GET /delete-pack/{id} — Delete a pack by ID, then redirect
-    // ─────────────────────────────────────────────────────────
     @GetMapping("/delete-pack/{id}")
     public String deletePack(@PathVariable Long id) {
         // STEP 1: Pass the path variable id to the service to delete the pack
@@ -83,4 +80,6 @@ public class SkillPackController {
         return packService;
     }
 }
+
+
 

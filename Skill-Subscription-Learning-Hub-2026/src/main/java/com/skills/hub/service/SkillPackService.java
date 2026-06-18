@@ -13,5 +13,6 @@ public interface SkillPackService {
     SkillPack updateSkillPack(SkillPack pack);
 
     void deleteSkillPack(Long id);
+    List<SkillPack> searchPacks(String keyword);
 }
 

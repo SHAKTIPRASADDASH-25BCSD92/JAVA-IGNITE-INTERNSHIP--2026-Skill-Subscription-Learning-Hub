@@ -45,18 +45,23 @@ public class UserController {
         return "login";
     }
 
-    @PostMapping("/login")
-    public String login(@RequestParam String email,
-                        @RequestParam String password) {
-        // STEP 1: call userService.login(email, password)
-        User user = userService.login(email, password);
-        // STEP 2: if user != null → redirect /packs
-        if (user != null) {
-            return "redirect:/packs";
-        }
-        // STEP 3: else → return login page again
+   @PostMapping("/login")
+public String login(@RequestParam String email,
+                    @RequestParam String password,
+                    HttpSession session,
+                    Model model) {
+
+    User user = userService.login(email, password);
+
+    if (user == null) {
+        model.addAttribute("error", "Invalid email or password");
         return "login";
     }
+
+    // Save logged-in user to session
+    session.setAttribute("loggedUser", user);
+    return "redirect:/packs";
+}
 	@PostMapping("/logout")
 public String logout(HttpSession session) {
     // Step 1: destroy the session

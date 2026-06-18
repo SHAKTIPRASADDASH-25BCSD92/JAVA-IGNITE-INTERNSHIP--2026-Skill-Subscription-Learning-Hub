@@ -28,7 +28,7 @@ public class SkillPackController {
    
     @GetMapping("/packs")
     public String viewPacks(@RequestParam(required = false) String search, Model model) {
-        // STEP 1: Check if search keyword is provided
+        
         List<SkillPack> list;
 
         if (search != null && !search.isBlank()) {
@@ -38,41 +38,31 @@ public class SkillPackController {
            
             list = packService.getAllPacks();
         }
-
-        // STEP 3: Bind the list to the model so packs.jsp can access it
         model.addAttribute("packs", list);
-
-        // STEP 4: Return the logical view name → resolves to /WEB-INF/views/packs.jsp
-        return "packs";
+         return "packs";
     }
-
-    // ─────────────────────────────────────────────────────────
-    // GET /add-pack — Show the add-pack form
-    // ─────────────────────────────────────────────────────────
-    @GetMapping("/add-pack")
+ @GetMapping("/add-pack")
     public String showAddPackPage() {
-        // STEP 1: Return the logical view name → resolves to /WEB-INF/views/add-pack.jsp
+       
         return "add-pack";
     }
 
-    // ─────────────────────────────────────────────────────────
-    // POST /add-pack — Save a new pack, then redirect
-    // ─────────────────────────────────────────────────────────
+   
     @PostMapping("/add-pack")
     public String addPack(@ModelAttribute SkillPack pack) {
-        // STEP 1: Pass the bound SkillPack object to the service to validate and save
+       
         packService.addSkillPack(pack);
 
-        // STEP 2: Redirect to /packs after saving
+        
         return "redirect:/packs";
     }
 
     @GetMapping("/delete-pack/{id}")
     public String deletePack(@PathVariable Long id) {
-        // STEP 1: Pass the path variable id to the service to delete the pack
+       
         packService.deleteSkillPack(id);
 
-        // STEP 2: Redirect back to /packs after deletion
+        
         return "redirect:/packs";
     }
 
